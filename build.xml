@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+   <project name="shardfs" default="compile" basedir=".">
+
+    <property name="src.dir"     value="src"/>
+    <property name="lib.dir"     value="lib"/>
+
+    <property name="build.dir"   value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="jar.dir"     value="${build.dir}/jar"/>
+
+    <path id="build.classpath">
+        <fileset dir="${lib.dir}">
+          <include name="**/*.jar" />
+        </fileset>
+    </path>
+    <target name="compile">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="build.classpath" deprecation="on"  debug="on" debuglevel="lines,vars,source"  source="1.7" target="1.7" includeantruntime="false">
+          <compilerarg value="-Xlint:unchecked"/>
+        </javac>
+        <antcall target="makejar"/>
+    </target>
+    <target name ="makejar" description="Create a jar for the ShardFS project">
+        <jar jarfile="build/shardfs.jar" includes="**/*.class" basedir="${classes.dir}"/>
+    </target>
+
+    <target name="clean">
+       <delete includeemptydirs="true">
+          <fileset dir="build" includes="**/*"/>
+       </delete>
+    </target>
+</project>
+
